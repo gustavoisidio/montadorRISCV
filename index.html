@@ -24,8 +24,6 @@
 <!--===============================================================================================-->
 </head>
 <body>
-
-
 	<div class="container-contact100" style="background-image: url('images/bg-01.jpg');">
 		<div class="wrap-contact100">
 			<form class="contact100-form validate-form">
@@ -56,13 +54,14 @@
 				<div class="container-contact100-form-btn">
 					<div class="wrap-contact100-form-btn">
 						<div class="contact100-form-bgbtn"></div>
-						<button class="contact100-form-btn">
-							Converter
+						<button class="contact100-form-btn" onclick="runProgram()">
+                                Converter                                          
 						</button>
 					</div>
                 </div>
                 <span class="contact100-form-title">
-					Binario
+                    Binario
+                    <p id="demo"></p>
                 </span>
                 <span class="label-input100">Codigo em binario aqui</span>
 			</form>
@@ -73,10 +72,16 @@
 		</span>
 	</div>
 
-
-
 	<div id="dropDownSelect1"></div>
-
+   
+   <script>
+        function runProgram(){
+            document.getElementById("demo").innerHTML = "Hello World";
+            var shell = new ActiveXObject("WScript.Shell");
+            // shell.run("open /Users/gustavoisidio/Desktop/tst");
+            shell.run("cd Desktop/ && open .");
+        }        
+    </script>
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
