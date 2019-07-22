@@ -5,9 +5,9 @@ Montador de instruções para o processador RISC-V
 
 #### Tipo R
 - [x] add
-- [ ] sub
-- [ ] sll
-- [ ] xor
+- [x] sub
+- [x] sll
+- [x] xor
 - [ ] srl
 - [ ] sra
 - [ ] or
