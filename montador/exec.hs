@@ -100,7 +100,7 @@ instAdd x rs1 rs2 rd opcode = reverse ( funct7 ++ rs2 ++ rs1 ++ funct3 ++ rd ++ 
 instSub :: String -> String -> String -> String -> String -> String
 instSub x rs1 rs2 rd opcode = reverse ( funct7 ++ rs2 ++ rs1 ++ funct3 ++ rd ++ opcode )
     where funct3 = "000"
-          funct7 = "1000000"
+          funct7 = "0100000"
 
 -- Trata a instrucao sll
 instSll :: String -> String -> String -> String -> String -> String
