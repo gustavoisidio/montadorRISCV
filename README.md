@@ -1,9 +1,9 @@
 # montadorRISCV
 Montador de instruções para o processador RISC-V
 ## Modo de usar
-1 - instructions.txt deve conter cada instrução em assembly para ser convertida, uma em cada linha do arquivo.
-2 - Após executar "run", instructions.mif conterá as instruções montadas
-3 - Nada disso funcionará perfeitamente pois nada funciona perfeitamente, há braços.
+1. instructions.txt deve conter cada instrução em assembly para ser convertida, uma em cada linha do arquivo.
+2. Após executar "run", instructions.mif conterá as instruções montadas
+3. Nada disso funcionará perfeitamente pois nada funciona perfeitamente, há braços.
 
 ## Status do desenvolvimento
 ### Instruções Implementadas
