@@ -7,7 +7,7 @@ Montador de instruções para o processador RISC-V
 4. Nada disso funcionará perfeitamente pois nada funciona perfeitamente, há braços.
 
 ## Versão 0.1
-* [MacOS]( https://github.com/gustavoisidio/montadorRISCV/archive/0.1.zip ) 
+* [MacOS]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.1/0.1.zip ) 
 
 ## Status do desenvolvimento
 ### Instruções Implementadas
