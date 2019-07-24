@@ -2,14 +2,17 @@ import Numeric (showHex, showIntAtBase)
 --import Data.Char (intToDigit)
 import System.IO
 import Data.Char
+import System.Directory
 
 --widthFile = 0 :: Int
 --depthFile = 0 :: Int 
 
 main = do
-    contents <- readFile "instructions.txt"
-    writeFile "instructions.mif" ( unlines (headerFile ( lines contents ) ( -1 ) ( length ( lines contents ) ) ) )
-    --putStr $ show ( length ( lines contents ) )  
+    exedir <- getCurrentDirectory
+    contents <- readFile (exedir ++ "/instructions.txt")
+    writeFile (exedir ++ "/instructions.mif") ( unlines (headerFile ( lines contents ) ( -1 ) ( length ( lines contents ) ) ) )
+    -- putStr $ show ( length ( lines contents ) )
+    -- putStr $ show exedir
 --    widthFile = ( length ( lines contents ) ) :: Int  
 --putStr ( unlines (programControll ( lines contents ) 0 ) )
 --    writeFile "intructions.mif" ( map ( \x -> case x of ',' ->  ' '; ')' -> ' '; '(' -> ' '; _ -> x) contents)
