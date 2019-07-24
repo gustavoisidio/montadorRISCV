@@ -6,8 +6,8 @@ Montador de instruções para o processador RISC-V
 3. Após executar ./exec dentro da pasta /montador, instructions.mif conterá as instruções montadas
 4. Nada disso funcionará perfeitamente pois nada funciona perfeitamente, há braços.
 
-## 0.1
-##[ MacOS] ( https://github.com/gustavoisidio/montadorRISCV/archive/0.1.zip ) 
+## Versão 0.1
+* [MacOS]( https://github.com/gustavoisidio/montadorRISCV/archive/0.1.zip ) 
 
 ## Status do desenvolvimento
 ### Instruções Implementadas
