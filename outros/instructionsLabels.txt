@@ -16,4 +16,31 @@ add x6,x5,x4
 sub x5,x6,x3
 lb x1,32(x0)
 lbu x2,32(x0)
+bge x1,x2,2
+lh x1,32(x0)
+lhu x2,32(x0)
+bge x1,x2,2	
+lw x1,32(x0)		
+lwu x2,32(x0)		
+blt x2,x1,1		
+and x1,x1,x2	
+jal x3,6		
+ld x1,64(x0)		
+ld x2,64(x0)		
+ld x10,40(x0)
+nop		
+add x15,x1,x2
+break
+slti x4,x3,200				
+slt x4,x3,x4		
+slli x5,x4,63		
+srli x6,x5,62		
+srai x7,x5,62
+sb x1,48(x0)		
+lbu x2,48(x0)		
+sh x1,48(x0)		
+lhu x2,48(x0)		
+sw x1,48(x0)		
+lwu x2,48(x0)				
+jalr x8,x3,1
 

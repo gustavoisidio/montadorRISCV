@@ -9,6 +9,7 @@ Montador de instruções para o processador RISC-V
 - [x] sll
 - [x] xor
 - [x] srl
+- [ ] slt
 - [x] sra
 - [x] or
 - [x] and
@@ -23,6 +24,7 @@ Montador de instruções para o processador RISC-V
 - [x] lwu
 - [x] addi
 - [x] slli
+- [ ] slti
 - [x] srli
 - [x] srai
 - [x] xori
@@ -58,6 +60,7 @@ Montador de instruções para o processador RISC-V
 - [ ] sll
 - [ ] xor
 - [ ] srl
+- [ ] slt
 - [ ] sra
 - [ ] or
 - [x] and
@@ -73,6 +76,7 @@ Montador de instruções para o processador RISC-V
 - [x] addi
 - [ ] slli
 - [ ] srli
+- [ ] slti
 - [ ] srai
 - [ ] xori
 - [ ] ori

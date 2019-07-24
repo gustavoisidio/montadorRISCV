@@ -8,8 +8,8 @@ import Data.Char
 
 main = do
     contents <- readFile "instructions.txt"
-    writeFile "instructions.mif" ( unlines (headerFile ( lines contents ) 0 ( length ( lines contents ) ) ) )
---    putStr $ show ( length ( lines contents ) )  
+    writeFile "instructions.mif" ( unlines (headerFile ( lines contents ) ( -1 ) ( length ( lines contents ) ) ) )
+    --putStr $ show ( length ( lines contents ) )  
 --    widthFile = ( length ( lines contents ) ) :: Int  
 --putStr ( unlines (programControll ( lines contents ) 0 ) )
 --    writeFile "intructions.mif" ( map ( \x -> case x of ',' ->  ' '; ')' -> ' '; '(' -> ' '; _ -> x) contents)
@@ -39,36 +39,37 @@ itst = "ld x3,8(x0)" :: String
 
 headerFile :: [ String ] -> Int -> Int -> [ String ]
 headerFile instructions index width = header : ( programControll instructions index width ) 
-    where header = ( "WIDTH = " ++ show width ++ ";\n\n"  
+    where header = ( "WIDTH = " ++ show width ++ ";\n"  
+                  ++ "DEPTH = " ++ show width ++ ";\n\n"                 
                   ++ "ADDRESS_RADIX = DEC;\n"
                   ++ "DATA_RADIX = BIN;\n\n"
                   ++ "CONTENT\n\n"
-                  ++ "BEGIN\n"
+                  ++ "BEGIN"
                    )
 
 programControll :: [ String ] -> Int -> Int -> [ String ]
 programControll [  ] _ _ = "END;" : [  ]
-programControll ( firstLine : otherLines ) index width | ( width * 4 ) == index = "END;" : [  ]
-                                                       | otherwise = ( instrTitle
-                                                                    ++ instructionBinary1
-                                                                    ++ instructionBinary2
-                                                                    ++ instructionBinary3
-                                                                    ++ instructionBinary4 ) 
+programControll ( firstLine : otherLines ) index width | ( ( width * 4 ) + 1 ) == index = "END;" : [  ]
+                                                       | otherwise = ( "\n" ++ instrTitle ++ "\n\n"
+                                                                    ++ instructionBinary1 ++ ";\n"
+                                                                    ++ instructionBinary2 ++ ";\n"
+                                                                    ++ instructionBinary3 ++ ";\n"
+                                                                    ++ instructionBinary4 ++ ";") 
                                                                      : ( programControll otherLines ( index + 4 ) width )
-      where instrTitle = ( "--" ++ firstLine ++ "\n" )
+      where instrTitle = ( "--" ++ firstLine )
             instructionBinary = instDecod firstLine
             blockIndex1 = reverse . take 3 $ reverse $ "00" ++ show ( index + 1 )
             instructionBlock1 = reverse ( take 8 instructionBinary )
-            instructionBinary1 = blockIndex1 ++ ": " ++ take 8 instructionBlock1 ++ ";\n"
+            instructionBinary1 = blockIndex1 ++ ": " ++ take 8 instructionBlock1 
             blockIndex2 = reverse . take 3 $ reverse $ "00" ++ show ( index + 2 )
             instructionBlock2 = reverse ( take 8 $ drop 8 instructionBinary )
-            instructionBinary2 = blockIndex2 ++ ": " ++ take 8 instructionBlock2 ++ ";\n"
+            instructionBinary2 = blockIndex2 ++ ": " ++ take 8 instructionBlock2 
             blockIndex3 = reverse . take 3 $ reverse $ "00" ++ show ( index + 3 )
             instructionBlock3 = reverse ( take 8 $ drop 16 instructionBinary )
-            instructionBinary3 = blockIndex3 ++ ": " ++ take 8 instructionBlock3 ++ ";\n"
+            instructionBinary3 = blockIndex3 ++ ": " ++ take 8 instructionBlock3 
             blockIndex4 = reverse . take 3 $ reverse $ "00" ++ show ( index + 4 )
             instructionBlock4 = reverse ( take 8 $ drop 24 instructionBinary )
-            instructionBinary4 = blockIndex4 ++ ": " ++ take 8 instructionBlock4 ++ ";\n"
+            instructionBinary4 = blockIndex4 ++ ": " ++ take 8 instructionBlock4 
 
 -- Recebe uma instrucao e decodifica qual instrucao se trata
 instDecod :: String -> String
@@ -99,7 +100,7 @@ instDecod x = case ( head instCleaned ) of
                 "srai" -> instSrai x immI rs1I rd opcodeI2
                 "ori"  -> instOri x immI rs1I rd opcodeI2
                 "andi" -> instAndi x immI rs1I rd opcodeI2
-                "jalr" -> instJalr x immI rs1I rd opcodeI2
+                "jalr" -> instJalr x immI2 rs1 rd opcodeI3
                 
                 -- Nas instrucoes S, o rs2 toma o lugar do rd nas instrucoes do tipo R
                 -- Como o rs2 eh encontrado da mesma forma do rd nas instrucoes r, 
@@ -129,6 +130,9 @@ instDecod x = case ( head instCleaned ) of
                 -- Instrucoes do tipo UJ
                 -- O immm da UJ aparece no mesmo local da U, entao usaremos reusamos ele 
                 "jal"  -> instJal x immU rd opcodeUJ
+                
+                "break" -> instBreak x
+                "nop"  -> instNop x
                 _      -> "Instrucao nao identificada"
 
     where instCleaned = words $ map ( \x -> case x of ',' ->  ' '; ')' -> ' '; '(' -> ' '; _ -> x) x
@@ -256,7 +260,7 @@ instAndi x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcod
     where funct3 = "111"
 
 instJalr :: String -> String -> String -> String -> String -> String
-instJalr x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode )
+instJalr x immI rs1 rd opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode)
     where funct3 = "000"
 
 
@@ -324,32 +328,21 @@ instLui x immU rd opcode = reverse ( imm ++ rd ++ opcode )
 instJal :: String -> String -> String -> String -> String
 instJal x immU rd opcode = reverse ( immU ++ rd ++ opcode )
 
+instBreak :: String -> String
+instBreak x = reverse ( imm ++ rs1 ++ funct3 ++ rd ++ opcode )
+    where imm = "000000000001"
+          rs1 = "00000"
+          funct3 = "000"
+          rd = "00000"
+          opcode = "1110011"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+instNop :: String -> String
+instNop x = reverse ( imm ++ rs1 ++ funct3 ++ rd ++ opcode )
+    where imm = "000000000000"
+          rs1 = "00000"
+          funct3 = "000"
+          rd = "00000"
+          opcode = "0010011"
 
 
 
