@@ -11,7 +11,9 @@ main = do
     exedir <- getCurrentDirectory
     contents <- readFile (exedir ++ "/instructions.txt")
     writeFile (exedir ++ "/instructions.mif") ( unlines (headerFile ( lines contents ) ( -1 ) ( length ( lines contents ) ) ) )
-    -- putStr $ show ( length ( lines contents ) )
+    --writeFile (exedir ++ "/instructions.mif") ( unlines (fillWithZeros 12 ) ) 
+     
+ -- putStr $ show ( length ( lines contents ) )
     -- putStr $ show exedir
 --    widthFile = ( length ( lines contents ) ) :: Int  
 --putStr ( unlines (programControll ( lines contents ) 0 ) )
@@ -42,8 +44,8 @@ itst = "ld x3,8(x0)" :: String
 
 headerFile :: [ String ] -> Int -> Int -> [ String ]
 headerFile instructions index width = header : ( programControll instructions index width ) 
-    where header = ( "WIDTH = " ++ show width ++ ";\n"  
-                  ++ "DEPTH = " ++ show width ++ ";\n\n"                 
+    where header = ( "WIDTH = 8;\n"  
+                  ++ "DEPTH = 256;\n\n"                 
                   ++ "ADDRESS_RADIX = DEC;\n"
                   ++ "DATA_RADIX = BIN;\n\n"
                   ++ "CONTENT\n\n"
@@ -51,8 +53,8 @@ headerFile instructions index width = header : ( programControll instructions in
                    )
 
 programControll :: [ String ] -> Int -> Int -> [ String ]
-programControll [  ] _ _ = "END;" : [  ]
-programControll ( firstLine : otherLines ) index width | ( ( width * 4 ) + 1 ) == index = "END;" : [  ]
+programControll [  ] index _ = fillWithZeros index  
+programControll ( firstLine : otherLines ) index width | ( ( width * 4 ) + 1 ) == index = fillWithZeros index
                                                        | otherwise = ( "\n" ++ instrTitle ++ "\n\n"
                                                                     ++ instructionBinary1 ++ ";\n"
                                                                     ++ instructionBinary2 ++ ";\n"
@@ -74,6 +76,16 @@ programControll ( firstLine : otherLines ) index width | ( ( width * 4 ) + 1 ) =
             instructionBlock4 = reverse ( take 8 $ drop 24 instructionBinary )
             instructionBinary4 = blockIndex4 ++ ": " ++ take 8 instructionBlock4 
 
+-- Preenche com zeros quando as instrucoes acabam
+fillWithZeros :: Int -> [ String ]
+fillWithZeros index | index >= 255 = "END;" : [  ]
+                    | otherwise = ( line1 ++ line2 ++ line3 ++ line4) : ( fillWithZeros ( index + 4 ) )
+    where line1 = "\n" ++ ( roundBin 3 $ show ( index + 1 ) ) ++ ": " ++ "00000000;"
+          line2 = "\n" ++ ( roundBin 3 $ show ( index + 2 ) ) ++ ": " ++ "00000000;"
+          line3 = "\n" ++ ( roundBin 3 $ show ( index + 3 ) ) ++ ": " ++ "00000000;"
+          line4 = "\n" ++ ( roundBin 3 $ show ( index + 4 ) ) ++ ": " ++ "00000000;"
+
+
 -- Recebe uma instrucao e decodifica qual instrucao se trata
 instDecod :: String -> String
 instDecod x = case ( head instCleaned ) of
@@ -81,6 +93,7 @@ instDecod x = case ( head instCleaned ) of
                 -- Instrucoes do tipo R
                 "add"  -> instAdd x rs1 rs2 rd opcodeR
                 "sub"  -> instSub x rs1 rs2 rd opcodeR
+                "slt"  -> instSlt x rs1 rs2 rd opcodeR
                 "sll"  -> instSll x rs1 rs2 rd opcodeR
                 "xor"  -> instXor x rs1 rs2 rd opcodeR
                 "srl"  -> instSrl x rs1 rs2 rd opcodeR
@@ -98,6 +111,7 @@ instDecod x = case ( head instCleaned ) of
                 "lwu"  -> instLwu x immI rs1I rd opcodeI1
                 "addi" -> instAddi x rs1 rd immI2 opcodeI2
                 "slli" -> instSlli x rs1 rd immI2 opcodeI2
+                "slti" -> instSlti x rs1 rd immI2 opcodeI2
                 "xori" -> instXori x immI rs1I rd opcodeI2
                 "srli" -> instSrli x immI rs1I rd opcodeI2
                 "srai" -> instSrai x immI rs1I rd opcodeI2
@@ -145,7 +159,7 @@ instDecod x = case ( head instCleaned ) of
           immI = roundBin 12 ( intToBin $ instCleaned !! 2 )
           immI2 = roundBin 12 ( intToBin $ instCleaned !! 3 )
           immSB = roundBin 12 ( intToBin $ instCleaned !! 3 )
-          immU = roundBin 21 ( intToBin $ instCleaned !! 2)
+          immU = roundBin 20 ( intToBin $ instCleaned !! 2)
           rs1I = roundBin 5 ( intToBin $ drop 1 $ instCleaned !! 3 )
           opcodeR = "0110011"
           opcodeI1 = "0000011"
@@ -168,6 +182,12 @@ instSub :: String -> String -> String -> String -> String -> String
 instSub x rs1 rs2 rd opcode = reverse ( funct7 ++ rs2 ++ rs1 ++ funct3 ++ rd ++ opcode )
     where funct3 = "000"
           funct7 = "0100000"
+
+-- Trata a instrucao slt
+instSlt :: String -> String -> String -> String -> String -> String
+instSlt x rs1 rs2 rd opcode = reverse ( funct7 ++ rs2 ++ rs1 ++ funct3 ++ rd ++ opcode )
+    where funct3 = "010"
+          funct7 = "0000000"
 
 -- Trata a instrucao sll
 instSll :: String -> String -> String -> String -> String -> String
@@ -237,6 +257,10 @@ instLwu x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode
 instAddi :: String -> String -> String -> String -> String -> String
 instAddi x rs1 rd immI opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
     where funct3 = "000"
+
+instSlti :: String -> String -> String -> String -> String -> String
+instSlti x rs1 rd immI opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
+    where funct3 = "010"
 
 instSlli :: String -> String -> String -> String -> String -> String
 instSlli x rs1 rd immI opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
@@ -325,11 +349,11 @@ instBgeu x imm rs1 rs2 opcode = reverse ( imm1 ++ rs2 ++ rs1 ++ funct3 ++ imm2 +
           imm2 = ( drop 8 imm ) ++ ( imm !! 1 ):[  ]
 
 instLui :: String -> String -> String -> String -> String
-instLui x immU rd opcode = reverse ( imm ++ rd ++ opcode )
-    where imm = ( head immU ) : ( drop 10 immU ) ++ ( immU !! 9 ) : ( take 8 ( tail immU ) )
+instLui x immU rd opcode = reverse ( immU ++ rd ++ opcode )
 
 instJal :: String -> String -> String -> String -> String
-instJal x immU rd opcode = reverse ( immU ++ rd ++ opcode )
+instJal x immU rd opcode = reverse ( imm ++ rd ++ opcode )
+    where imm = ( head immU ) : ( drop 10 immU ) ++ ( head $ drop 9 immU ) : ( take 8 $ tail immU )
 
 instBreak :: String -> String
 instBreak x = reverse ( imm ++ rs1 ++ funct3 ++ rd ++ opcode )

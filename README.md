@@ -19,7 +19,7 @@ Montador de instruções para o processador RISC-V
 - [x] sll
 - [x] xor
 - [x] srl
-- [ ] slt
+- [x] slt
 - [x] sra
 - [x] or
 - [x] and
@@ -34,7 +34,7 @@ Montador de instruções para o processador RISC-V
 - [x] lwu
 - [x] addi
 - [x] slli
-- [ ] slti
+- [x] slti
 - [x] srli
 - [x] srai
 - [x] xori
@@ -70,7 +70,7 @@ Montador de instruções para o processador RISC-V
 - [ ] sll
 - [ ] xor
 - [ ] srl
-- [ ] slt
+- [x] slt
 - [ ] sra
 - [ ] or
 - [x] and
@@ -84,14 +84,14 @@ Montador de instruções para o processador RISC-V
 - [x] lhu
 - [x] lwu
 - [x] addi
-- [ ] slli
-- [ ] srli
-- [ ] slti
-- [ ] srai
+- [-] slli
+- [-] srli
+- [x] slti
+- [-] srai
 - [ ] xori
 - [ ] ori
 - [ ] andi
-- [ ] jalr
+- [x] jalr
 
 #### Tipo S
 - [x] sb
@@ -108,7 +108,7 @@ Montador de instruções para o processador RISC-V
 - [ ] bgeu
 
 #### Tipo U
-- [ ] lui
+- [x] lui
 
 #### Tipo UJ
-- [ ] jal
+- [x] jal
