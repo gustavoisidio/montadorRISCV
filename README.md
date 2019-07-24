@@ -45,12 +45,12 @@ Montador de instruções para o processador RISC-V
 - [x] bgeu
 
 #### Tipo U
-- [ ] lui
+- [x] lui
 
 #### Tipo UJ
-- [ ] jal
+- [x] jal
 
-### Instruções Testadas
+### Instruções Testadas e Funcionando
 
 #### Tipo R
 - [x] add
@@ -60,17 +60,17 @@ Montador de instruções para o processador RISC-V
 - [ ] srl
 - [ ] sra
 - [ ] or
-- [ ] and
+- [x] and
 
 #### Tipo I
-- [ ] lb
-- [ ] lh
-- [ ] lw
-- [ ] ld
-- [ ] lbu
-- [ ] lhu
-- [ ] lwu
-- [ ] addi
+- [x] lb
+- [x] lh
+- [x] lw
+- [x] ld
+- [x] lbu
+- [x] lhu
+- [x] lwu
+- [x] addi
 - [ ] slli
 - [ ] srli
 - [ ] srai
@@ -80,16 +80,16 @@ Montador de instruções para o processador RISC-V
 - [ ] jalr
 
 #### Tipo S
-- [ ] sb
-- [ ] sh
-- [ ] sw
-- [ ] sd
+- [x] sb
+- [x] sh
+- [x] sw
+- [x] sd
 
 #### Tipo SB
-- [ ] bne
-- [ ] blt
-- [ ] beq
-- [ ] bge
+- [x] bne
+- [x] blt
+- [x] beq
+- [x] bge
 - [ ] bltu
 - [ ] bgeu
 

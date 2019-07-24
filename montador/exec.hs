@@ -92,8 +92,8 @@ instDecod x = case ( head instCleaned ) of
                 "lbu"  -> instLbu x immI rs1I rd opcodeI1
                 "lhu"  -> instLhu x immI rs1I rd opcodeI1
                 "lwu"  -> instLwu x immI rs1I rd opcodeI1
-                "addi" -> instAddi x immI rs1I rd opcodeI2
-                "slli" -> instSlli x immI rs1I rd opcodeI2
+                "addi" -> instAddi x rs1 rd immI2 opcodeI2
+                "slli" -> instSlli x rs1 rd immI2 opcodeI2
                 "xori" -> instXori x immI rs1I rd opcodeI2
                 "srli" -> instSrli x immI rs1I rd opcodeI2
                 "srai" -> instSrai x immI rs1I rd opcodeI2
@@ -108,7 +108,7 @@ instDecod x = case ( head instCleaned ) of
                 -- Ele também sera reaproveitado por hora                
                 "sb"   -> instSb x immI rd rs1I opcodeS 
                 "sh"   -> instSh x immI rd rs1I opcodeS
-                "sw"   -> instSd x immI rd rs1I opcodeS
+                "sw"   -> instSw x immI rd rs1I opcodeS
                 "sd"   -> instSd x immI rd rs1I opcodeS
                 
                 -- Instrucoes do tipo SB
@@ -117,12 +117,18 @@ instDecod x = case ( head instCleaned ) of
                 -- o rs2 da SB eh o rs1 da R
                 -- portanto, podemos aproveitar 
                 "beq"  -> instBeq x immSB rd rs1 opcodeSB
-                "bne"  -> instBne x immSB rd rs1 opcodeSB
-                "blt"  -> instBlt x immSB rd rs1 opcodeSB
-                "bge"  -> instBge x immSB rd rs1 opcodeSB
+                "bne"  -> instBne x immSB rd rs1 opcodeSB2
+                "blt"  -> instBlt x immSB rd rs1 opcodeSB2
+                "bge"  -> instBge x immSB rd rs1 opcodeSB2
                 "bltu" -> instBltu x immSB rd rs1 opcodeSB
                 "bgeu" -> instBgeu x immSB rd rs1 opcodeSB
+
+                -- Instrucoes do tipo U
+                "lui"  -> instLui x immU rd opcodeU
                 
+                -- Instrucoes do tipo UJ
+                -- O immm da UJ aparece no mesmo local da U, entao usaremos reusamos ele 
+                "jal"  -> instJal x immU rd opcodeUJ
                 _      -> "Instrucao nao identificada"
 
     where instCleaned = words $ map ( \x -> case x of ',' ->  ' '; ')' -> ' '; '(' -> ' '; _ -> x) x
@@ -130,14 +136,17 @@ instDecod x = case ( head instCleaned ) of
           rs2 = roundBin 5 ( intToBin $ drop 1 $ instCleaned !! 3 )
           rd = roundBin 5 ( intToBin $ drop 1 $ instCleaned !! 1 )
           immI = roundBin 12 ( intToBin $ instCleaned !! 2 )
+          immI2 = roundBin 12 ( intToBin $ instCleaned !! 3 )
           immSB = roundBin 12 ( intToBin $ instCleaned !! 3 )
+          immU = roundBin 21 ( intToBin $ instCleaned !! 2)
           rs1I = roundBin 5 ( intToBin $ drop 1 $ instCleaned !! 3 )
           opcodeR = "0110011"
           opcodeI1 = "0000011"
           opcodeI2 = "0010011"
           opcodeI3 = "1100111"
           opcodeS = "0100011"
-          opcodeSB = opcodeI3
+          opcodeSB = "1100011"
+          opcodeSB2 = opcodeI3
           opcodeU = "0110111"
           opcodeUJ = "1101111"
 
@@ -219,11 +228,11 @@ instLwu x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode
     where funct3 = "110"
 
 instAddi :: String -> String -> String -> String -> String -> String
-instAddi x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode )
+instAddi x rs1 rd immI opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
     where funct3 = "000"
 
 instSlli :: String -> String -> String -> String -> String -> String
-instSlli x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode )
+instSlli x rs1 rd immI opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
     where funct3 = "001"
 
 instXori :: String -> String -> String -> String -> String -> String
@@ -275,42 +284,45 @@ instSd x immI rs2 rs1I opcode = reverse ( ( take 7 immI ) ++ rs2 ++ rs1I ++ func
 instBeq :: String -> String -> String -> String -> String -> String
 instBeq x imm rs1 rs2 opcode = reverse ( imm1 ++ rs2 ++ rs1 ++ funct3 ++ imm2 ++ opcode )
     where funct3 = "000"
-          imm1 = ( head imm ) : ( take 5 ( drop 2 imm ) )
+          imm1 = ( head imm ) : ( take 6 ( drop 2 imm ) )
           imm2 = ( drop 8 imm ) ++ ( imm !! 1 ):[  ]
 
 instBne :: String -> String -> String -> String -> String -> String
 instBne x imm rs1 rs2 opcode = reverse ( imm1 ++ rs2 ++ rs1 ++ funct3 ++ imm2 ++ opcode )
     where funct3 = "001"
-          imm1 = ( head imm ) : ( take 5 ( drop 2 imm ) )
+          imm1 = ( head imm ) : ( take 6 ( drop 2 imm ) )
           imm2 = ( drop 8 imm ) ++ ( imm !! 1 ):[  ]
 
 instBlt :: String -> String -> String -> String -> String -> String
 instBlt x imm rs1 rs2 opcode = reverse ( imm1 ++ rs2 ++ rs1 ++ funct3 ++ imm2 ++ opcode )
     where funct3 = "100"
-          imm1 = ( head imm ) : ( take 5 ( drop 2 imm ) )
+          imm1 = ( head imm ) : ( take 6 ( drop 2 imm ) )
           imm2 = ( drop 8 imm ) ++ ( imm !! 1 ):[  ]
 
 instBge :: String -> String -> String -> String -> String -> String
 instBge x imm rs1 rs2 opcode = reverse ( imm1 ++ rs2 ++ rs1 ++ funct3 ++ imm2 ++ opcode )
     where funct3 = "101"
-          imm1 = ( head imm ) : ( take 5 ( drop 2 imm ) )
+          imm1 = ( head imm ) : ( take 6 ( drop 2 imm ) )
           imm2 = ( drop 8 imm ) ++ ( imm !! 1 ):[  ]
 
 instBltu :: String -> String -> String -> String -> String -> String
 instBltu x imm rs1 rs2 opcode = reverse ( imm1 ++ rs2 ++ rs1 ++ funct3 ++ imm2 ++ opcode )
     where funct3 = "110"
-          imm1 = ( head imm ) : ( take 5 ( drop 2 imm ) )
+          imm1 = ( head imm ) : ( take 6 ( drop 2 imm ) )
           imm2 = ( drop 8 imm ) ++ ( imm !! 1 ):[  ]
 
 instBgeu :: String -> String -> String -> String -> String -> String
 instBgeu x imm rs1 rs2 opcode = reverse ( imm1 ++ rs2 ++ rs1 ++ funct3 ++ imm2 ++ opcode )
     where funct3 = "111"
-          imm1 = ( head imm ) : ( take 5 ( drop 2 imm ) )
+          imm1 = ( head imm ) : ( take 6 ( drop 2 imm ) )
           imm2 = ( drop 8 imm ) ++ ( imm !! 1 ):[  ]
 
+instLui :: String -> String -> String -> String -> String
+instLui x immU rd opcode = reverse ( imm ++ rd ++ opcode )
+    where imm = ( head immU ) : ( drop 10 immU ) ++ ( immU !! 9 ) : ( take 8 ( tail immU ) )
 
-
-
+instJal :: String -> String -> String -> String -> String
+instJal x immU rd opcode = reverse ( immU ++ rd ++ opcode )
 
 
 
