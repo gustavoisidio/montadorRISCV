@@ -1,25 +1,26 @@
 
-# Montador de instruções para o processador RISC-V
+# Assembler for RISC-V instructions
 ![[RISC-V](https://http://riscv.org/)](outros/image8.png)
 
 ### Download
 * [MacOS]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableMACOS.zip ) 
 
-### Instruções (macOS)
-1. Descompactar a pasta runableMACOS.
-2. Executar o script "run.command" para criar os arquivos instructions.txt e instructions.mif
-3. Preencher instructions.txt com as instruções desejadas e executar mais uma vez o script "run.command" para que a tradução seja feita.
+### Instructions (macOS)
+1. Unpack runableMACOS.
+2. Run "run.command" to create instructions instructions.txt and instructions.mif
+3. Add your assembly code in instructions.txt run "run.command" and the translation will be inside of instructions.mif.
 
 * [Windows]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableWINDOWS.zip ) 
 
-### Instruções (Windows)
-1. Descompactar a pasta runableWINDOWS.
-2. Preencher instructions.txt com as instruções desejadas e executar "run.exe" tradução seja feita para o arquivo instructions.mif.
+### Instructions (Windows)
+1. Unpack runableWINDOWS.
+2. Add your assembly code in instructions.txt and double click in "run.exe". The translation will be inside of instructions.mif.
 
 
-#### Instruções testadas e funcionando
+#### Instructions tested and working
+Those unchecked have never been tested and those with "-" are not working as expected
 
-#### Tipo R
+#### R-Type
 - [x] add
 - [x] sub
 - [ ] sll
@@ -30,7 +31,7 @@
 - [ ] or
 - [x] and
 
-#### Tipo I
+#### I-Type
 - [x] lb
 - [x] lh
 - [x] lw
@@ -48,13 +49,13 @@
 - [ ] andi
 - [x] jalr
 
-#### Tipo S
+#### S-Type
 - [x] sb
 - [x] sh
 - [x] sw
 - [x] sd
 
-#### Tipo SB
+#### SB-Type
 - [x] bne
 - [x] blt
 - [x] beq
@@ -62,8 +63,8 @@
 - [ ] bltu
 - [ ] bgeu
 
-#### Tipo U
+#### U-Type
 - [x] lui
 
-#### Tipo UJ
+#### UJ-Type
 - [x] jal
