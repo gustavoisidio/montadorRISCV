@@ -17,7 +17,7 @@
 2. Preencher instructions.txt com as instruções desejadas e executar "run.exe" tradução seja feita para o arquivo instructions.mif.
 
 
-#### Instruções funcionando
+#### Instruções testadas e funcionando
 
 #### Tipo R
 - [x] add
