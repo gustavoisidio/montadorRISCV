@@ -1,0 +1,41 @@
+add x5,x3,x0
+sub x6,x4,x3
+addi x7,x0,2 
+beq x7,x6,2
+break
+break
+bne x7,x6,2
+lui x1,4
+sd x1,24(x0)
+ld x6,24(x0)
+beq x7,x6,2
+add x5,x3,x4
+add x6,x5,x4
+sub x5,x6,x3
+lb x1,32(x0)
+lbu x2,32(x0)
+bge x1,x2,2
+lh x1,32(x0)
+lhu x2,32(x0)
+bge x1,x2,2	
+lw x1,32(x0)		
+lwu x2,32(x0)		
+blt x2,x1,1		
+and x1,x1,x2	
+jal x3,6		
+ld x1,64(x0)		
+ld x2,64(x0)		
+ld x10,40(x0)
+nop
+add x15,x1,x2
+break
+slti x4,x3,200				
+slt x4,x3,x4
+slli x5,x4,63
+sb x1,48(x0)		
+lbu x2,48(x0)		
+sh x1,48(x0)		
+lhu x2,48(x0)		
+sw x1,48(x0)		
+lwu x2,48(x0)				
+jalr x8,x3,1
