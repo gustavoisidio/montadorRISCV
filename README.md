@@ -2,13 +2,20 @@
 # Montador de instruções para o processador RISC-V
 ![[RISC-V](https://http://riscv.org/)](outros/image8.png)
 
-## Modo de usar macOS
+## Download
+* [MacOS]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableMACOS.zip ) 
+
+### Instruções (macOS)
 1. Descompactar a pasta runableMACOS.
 2. Executar o script "run.command" para criar os arquivos instructions.txt e instructions.mif
 3. Preencher instructions.txt com as instruções desejadas e executar mais uma vez o script "run.command" para que a tradução seja feita.
 
-## Versão 0.2
-* [MacOS]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.2/runableMACOS.zip ) 
+* [Windows]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableWINDOWS.zip ) 
+
+### Instruções (Windows)
+1. Descompactar a pasta runableWINDOWS.
+2. Preencher instructions.txt com as instruções desejadas e executar "run.exe" tradução seja feita para o arquivo instructions.mif.
+
 
 ### Instruções Testadas e Funcionando
 
