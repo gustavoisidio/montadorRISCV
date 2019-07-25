@@ -2,20 +2,17 @@
 # Assembler for RISC-V instructions
 ![[RISC-V](https://http://riscv.org/)](outros/image8.png)
 
-### Download
-* [MacOS]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableMACOS.zip ) 
+## Downloading & Usage
+If you wanna compile by yourself, go to "montador" folder. There you gonna find a haskell file named "source.hs". With ghc installed, you need to run `ghc -o source source.hs` and add manualy instructions.txt and instructions.mif if those files waren't there yet. After that you just add your assembly code in instructions.txt and double click in the source executable to see the magic that will appear inside of instructions.mif. Otherwise you can just download the latest [windows](https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableWINDOWS.zip) or [macOS]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableMACOS.zip ) version and folow the instructions below.
 
-### Instructions (macOS)
-1. Unpack runableMACOS.
-2. Run "run.command" to create instructions instructions.txt and instructions.mif
-3. Add your assembly code in instructions.txt run "run.command" and the translation will be inside of instructions.mif.
+### Windows [version 0.3](https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableWINDOWS.zip)
+* Unpack runableWINDOWS.
+* Add your assembly code in instructions.txt and double click in "run.exe". The translation will be inside of instructions.mif.
 
-* [Windows]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableWINDOWS.zip ) 
-
-### Instructions (Windows)
-1. Unpack runableWINDOWS.
-2. Add your assembly code in instructions.txt and double click in "run.exe". The translation will be inside of instructions.mif.
-
+### macOS [version 0.3]( https://github.com/gustavoisidio/montadorRISCV/releases/download/0.3/runableMACOS.zip ) 
+* Unpack runableMACOS.
+* Run "run.command" to create instructions instructions.txt and instructions.mif
+* Add your assembly code in instructions.txt run "run.command" and the translation will be inside of instructions.mif.
 
 #### Instructions tested and working
 Those unchecked have never been tested and those with "-" are not working as expected
