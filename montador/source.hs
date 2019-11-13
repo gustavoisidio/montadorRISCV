@@ -95,6 +95,7 @@ instDecod x = case ( head instCleaned ) of
                 "sub"  -> instSub x rs1 rs2 rd opcodeR
                 "slt"  -> instSlt x rs1 rs2 rd opcodeR
                 "sll"  -> instSll x rs1 rs2 rd opcodeR
+                "sltu" -> instSltu x rs1 rs2 rd opcodeR
                 "xor"  -> instXor x rs1 rs2 rd opcodeR
                 "srl"  -> instSrl x rs1 rs2 rd opcodeR
                 "sra"  -> instSra x rs1 rs2 rd opcodeR
@@ -195,6 +196,12 @@ instSll x rs1 rs2 rd opcode = reverse ( funct7 ++ rs2 ++ rs1 ++ funct3 ++ rd ++ 
     where funct3 = "001"
           funct7 = "0000000"
           
+-- Trata a instrucao sltu
+instSltu :: String -> String -> String -> String -> String -> String
+instSltu x rs1 rs2 rd opcode = reverse ( funct7 ++ rs2 ++ rs1 ++ funct3 ++ rd ++ opcode )
+    where funct3 = "011"
+          funct7 = "0000000"
+
 -- Trata a instrucao xor
 instXor :: String -> String -> String -> String -> String -> String
 instXor x rs1 rs2 rd opcode = reverse ( funct7 ++ rs2 ++ rs1 ++ funct3 ++ rd ++ opcode )
