@@ -1,4 +1,5 @@
 sltu x23,x31,x8
+addi x15,x1,-50
 ld x3,8(x0)
 ld x4,16(x0)
 add x5,x3,x0

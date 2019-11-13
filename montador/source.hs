@@ -31,7 +31,9 @@ runAllInst x = map instDecod x
 
 -- Converte inteiro em binario
 intToBin :: String -> String 
-intToBin x = showIntAtBase 2 intToDigit ( read x ) "" 
+intToBin x = showIntAtBase 2 intToDigit imm ""
+    where imm | (read x) < 0 = 4096 + (read x)
+              | otherwise = read x
 
 -- Arredonda numeros binarios ate count bits acrescentando 0's a esquerda 
 roundBin :: Int -> String -> String
