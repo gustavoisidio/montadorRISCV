@@ -1,3 +1,6 @@
+srai x5,x4,17
+slli x5,x4,17
+srli x5,x4,17
 sltu x23,x31,x8
 addi x15,x1,-50
 ld x3,8(x0)
@@ -35,7 +38,6 @@ add x15,x1,x2
 break
 slti x4,x3,200				
 slt x4,x3,x4
-slli x5,x4,63
 sb x1,48(x0)		
 lbu x2,48(x0)		
 sh x1,48(x0)		

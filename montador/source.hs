@@ -31,9 +31,10 @@ runAllInst x = map instDecod x
 
 -- Converte inteiro em binario
 intToBin :: String -> String 
-intToBin x = showIntAtBase 2 intToDigit imm ""
-    where imm | (read x) < 0 = 4096 + (read x)
-              | otherwise = read x
+intToBin x = showIntAtBase 2 intToDigit immPositive ""
+    where immPositive | imm < 0 = 4096 + imm
+                      | otherwise = imm
+          imm = read x
 
 -- Arredonda numeros binarios ate count bits acrescentando 0's a esquerda 
 roundBin :: Int -> String -> String
@@ -116,8 +117,8 @@ instDecod x = case ( head instCleaned ) of
                 "slli" -> instSlli x rs1 rd immI2 opcodeI2
                 "slti" -> instSlti x rs1 rd immI2 opcodeI2
                 "xori" -> instXori x immI rs1I rd opcodeI2
-                "srli" -> instSrli x immI rs1I rd opcodeI2
-                "srai" -> instSrai x immI rs1I rd opcodeI2
+                "srli" -> instSrli x rs1 rd immI2 opcodeI2
+                "srai" -> instSrai x rs1 rd shamt opcodeI2
                 "ori"  -> instOri x immI rs1I rd opcodeI2
                 "andi" -> instAndi x immI rs1I rd opcodeI2
                 "jalr" -> instJalr x immI2 rs1 rd opcodeI3
@@ -161,6 +162,7 @@ instDecod x = case ( head instCleaned ) of
           rd = roundBin 5 ( intToBin $ drop 1 $ instCleaned !! 1 )
           immI = roundBin 12 ( intToBin $ instCleaned !! 2 )
           immI2 = roundBin 12 ( intToBin $ instCleaned !! 3 )
+          shamt = roundBin 5 ( intToBin $ instCleaned !! 3 )
           immSB = roundBin 12 ( intToBin $ instCleaned !! 3 )
           immU = roundBin 20 ( intToBin $ instCleaned !! 2)
           rs1I = roundBin 5 ( intToBin $ drop 1 $ instCleaned !! 3 )
@@ -272,20 +274,23 @@ instSlti x rs1 rd immI opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode 
     where funct3 = "010"
 
 instSlli :: String -> String -> String -> String -> String -> String
-instSlli x rs1 rd immI opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
+instSlli x rs1 rd shamt opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
     where funct3 = "001"
+          immI = (replicate 7 '0') ++ shamt
 
 instXori :: String -> String -> String -> String -> String -> String
 instXori x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode )
     where funct3 = "100"
 
 instSrli :: String -> String -> String -> String -> String -> String
-instSrli x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode )
+instSrli x rs1 rd shamt opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
     where funct3 = "101"
+          immI = (replicate 7 '0') ++ shamt
 
 instSrai :: String -> String -> String -> String -> String -> String
-instSrai x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode )
+instSrai x rs1 rd shamt opcode = reverse ( immI ++ rs1 ++ funct3 ++ rd ++ opcode )
     where funct3 = "101"
+          immI = "0100000" ++ shamt
 
 instOri :: String -> String -> String -> String -> String -> String
 instOri x immI rs1I rd opcode = reverse ( immI ++ rs1I ++ funct3 ++ rd ++ opcode )

@@ -31,6 +31,7 @@ Those unchecked have never been tested and those with "-" are not working as exp
 - [ ] sra
 - [ ] or
 - [x] and
+- [x] sltu
 
 #### I-Type
 - [x] lb
@@ -41,10 +42,10 @@ Those unchecked have never been tested and those with "-" are not working as exp
 - [x] lhu
 - [x] lwu
 - [x] addi
-- [-] slli
-- [-] srli
+- [x] slli
+- [x] srli
 - [x] slti
-- [-] srai
+- [x] srai
 - [ ] xori
 - [ ] ori
 - [ ] andi
