@@ -1,0 +1,1 @@
+$('input[id=hident2]').change((ev)=>document.getElementById('assemblyInput').readOnly=true);$('input[id=assemblyInput]').change((ev)=>document.getElementById('hident2').disabled=true)

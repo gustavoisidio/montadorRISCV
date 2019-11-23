@@ -1,0 +1,1 @@
+$('input[id=hident2]').change((ev)=>document.getElementById('assemblyInput').readOnly=true);function checkTextArea(value){document.getElementById('hident2').disabled=value!='';print(value)}

@@ -1,0 +1,32 @@
+<div .masthead>
+    <div .container>
+        <div .row>
+            <h1 .header>
+                RISC-V Assembly to MIF
+            <h2>
+                A tool to convert RISC-V assembly to .mif file
+
+<div .container>
+    <!-- Forms
+        ================================================== -->
+    <div .bs-docs-section>
+        <div .row>
+            <div .col-lg-6>
+                <div .bs-callout bs-callout-info well>
+                    <form method=post action=@{HomeR}#forms enctype=#{formEnctype}>
+                        ^{formWidget}
+
+                        <button .btn.btn-primary type="submit">
+                            Convert!
+            
+            <div .col-lg-6>
+                <div .bs-callout bs-callout-info well>
+                    <label for="outputTextArea">Output</label>
+                    <textarea id="outputTextArea" class="form-control" readonly>
+                        $maybe (codeOutput) <- submission
+                            #{codeOutput}
+                        $nothing
+                            File upload result will be here...
+
+                    <!-- <button .btn.btn-primary type="submit" style="margin-top: 17px" id="btnDownload">
+                        Download .mif -->
